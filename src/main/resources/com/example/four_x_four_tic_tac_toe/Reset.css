@@ -1,0 +1,26 @@
+.button{
+    -fx-border-color: purple;
+    -fx-border-width: 0;
+    -fx-font-family: Impact;
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+    -fx-background-color: radial-gradient(center 50% 50%, radius 90%, #ca01e6, #000000);
+}
+
+.button:focused {
+    -fx-border-color: transparent;
+    -fx-border-width: 1, 1;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:hover{
+    -fx-background: rgb(121,1,230);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff2cc8, #000000);
+}
+
+.button:pressed {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff72f8, #000000);
+    -fx-text-fill: white;
+}

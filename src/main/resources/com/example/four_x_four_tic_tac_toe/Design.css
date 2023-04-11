@@ -1,0 +1,61 @@
+.root {
+    -fx-background-image: url("gwiazdy.jpg");
+}
+
+.button{
+    -fx-border-color: purple;
+    -fx-border-width: 0;
+    -fx-background-radius: 15;
+    -fx-background-color: radial-gradient(center 50% 50%, radius 90%, #ca01e600, #00000099);
+}
+
+.button:focused {
+    -fx-border-color: transparent;
+    -fx-border-width: 1, 1;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:hover{
+    -fx-background: rgb(121,1,230);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e655, #00000099);
+}
+
+.button:pressed {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff72f855, #00000099);
+    -fx-text-fill: white;
+}
+
+.label {
+    -fx-background-color: transparent;
+    -fx-font-family: Impact;
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 255, 0.5), 30, 0.5, 0, 0);
+    -fx-text-fill: transparent;
+    -fx-text-fill: white;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+    -fx-alignment: center;
+}
+
+.label:hover{
+    -fx-font-size: 43px;
+    -fx-letter-spacing: 5px;
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #800080, 0 0 40px #800080, 0 0 50px #800080, 0 0 60px #800080, 0 0 70px #800080;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff, 0 0 80px #ff00ff;
+    }
+}
+
+
+
+
+
+
