@@ -127,67 +127,67 @@ public class AI {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) { //sprawdzam czy pole jest wolne
                     int localScore = 0;
-                    boolean lineFound = false;
+                    boolean fieldTaken = false;
 
 
                     if (board[i][j] == 1) { //sprawdzam czy w wierszu już jest znak, czyli czy warto ten wiersz rozważać
                         rowChecker++;
-                        lineFound = true;
+                        fieldTaken = true;
                         break;
                     }
 
 
-                    if (!lineFound && rowChecker < 3) { //bazując na wyniku if'a przyznaję wartość
+                    if (!fieldTaken && rowChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
                     } else {
                         if(rowChecker == 3)
                             localScore--;
                     }
 
-                    lineFound = false;
+                    fieldTaken = false;
 
 
                     if (board[j][i] == 1) { //sprawdzam czy w kolumnie już jest znak, czyli czy warto tę kolumnę rozważać
                         colChecker++;
-                        lineFound = true;
+                        fieldTaken = true;
                         break;
                     }
 
 
-                    if (!lineFound && colChecker < 3) { //bazując na wyniku if'a przyznaję wartość
+                    if (!fieldTaken && colChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
                     } else {
                         if(rowChecker == 3)
                             localScore--;
                     }
 
-                    lineFound = false;
+                    fieldTaken = false;
 
                     if (board[i][i] == 1) { //sprawdzam czy na lewym skosie już jest znak, czyli czy warto ten skos rozważać
                         diagLChecker++;
-                        lineFound = true;
+                        fieldTaken = true;
                         break;
                     }
 
 
-                    if (!lineFound && diagLChecker < 3) { //bazując na wyniku if'a przyznaję wartość
+                    if (!fieldTaken && diagLChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
                     } else {
                         if(rowChecker == 3)
                             localScore--;
                     }
 
-                    lineFound = false;
+                    fieldTaken = false;
 
 
                     if (board[i][board.length - i - 1] == 1) { //sprawdzam czy na prawym skosie już jest znak, czyli czy warto ten skos rozważać
                         diagRChecker++;
-                        lineFound = true;
+                        fieldTaken = true;
                         break;
                     }
 
 
-                    if (!lineFound && diagRChecker < 3) { //bazując na wyniku if'a przyznaję wartość
+                    if (!fieldTaken && diagRChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
                     } else {
                         if(rowChecker == 3)
