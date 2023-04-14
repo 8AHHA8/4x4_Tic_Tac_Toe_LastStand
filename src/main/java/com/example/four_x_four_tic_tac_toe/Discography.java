@@ -32,7 +32,7 @@ public class Discography {
         return mediaPlayer1;
     }
 
-    public MediaPlayer LoosingPlayer1(){
+    public MediaPlayer LoosingPlayer(){
         String pathLosing1 = getClass().getResource("GameOver.mp3").toString();
         Media playLosing1 = new Media(pathLosing1);
         mediaPlayer1 = new MediaPlayer(playLosing1);
@@ -41,14 +41,6 @@ public class Discography {
         return mediaPlayer1;
     }
 
-    public MediaPlayer LoosingPlayer2(){
-        String pathLosing2 = getClass().getResource("GameOver.mp3").toString();
-        Media playLosing2 = new Media(pathLosing2);
-        mediaPlayer1 = new MediaPlayer(playLosing2);
-        mediaPlayer1.play();
-
-        return mediaPlayer1;
-    }
 
 
 }

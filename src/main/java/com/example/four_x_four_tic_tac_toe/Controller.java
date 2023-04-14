@@ -90,46 +90,19 @@ public class Controller {
 
                         ai = new AI(board);
 
-                        if (ai.isGameOver() && clickCounter1 % 2 == 1) {
-                            discography.LoosingPlayer2();
-
-                            button.getStyleClass().remove("button-pressed");
-                            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                            FailureInfoPlayer1();
-
-                            if (mediaPlayer1 == null || mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                                System.out.print("____________________________\n");
-                                System.out.println("MUSIC IS CURRENTLY NOT PLAYING");
-                                System.out.print("____________________________\n");
-                            } else {
-                                mediaPlayer1.stop();
-                                System.out.println("MUSIC STOP");
-                                System.out.print("____________________________\n");
-                            }
-
-                            RESET();
-                        }
-                        printBoard();
-                        System.out.println(board[x][y] + " " + x + " " + y);
-
-
-
-
-
                         performComputerMove(board);
                         clickCounter1++;
 
 
                         ai = new AI(board);
 
-                        if (ai.isGameOver() && clickCounter1 % 2 == 0) {
-                            discography.LoosingPlayer2();
+                        if (ai.isGameOver()) {
+                            discography.LoosingPlayer();
 
                             button.getStyleClass().remove("button-pressed");
                             button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
 
-                            FailureInfoPlayer2();
+                            FailureInfoPlayer();
 
                             if (mediaPlayer1 == null || mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
                                 System.out.print("____________________________\n");
@@ -208,20 +181,9 @@ public class Controller {
         System.out.println();
     }
 
-    private Alert FailureInfoPlayer1() {
+    private Alert FailureInfoPlayer() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("PLAYER 1 HAS LOST!");
-        alert.setHeaderText(null);
-        alert.setGraphic(null);
-        alert.setContentText("TRY NEXT TIME");
-        alert.showAndWait();
-
-        return alert;
-    }
-
-    private Alert FailureInfoPlayer2() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("PLAYER 2 HAS LOST!");
+        alert.setTitle("YOU HAVE LOST!");
         alert.setHeaderText(null);
         alert.setGraphic(null);
         alert.setContentText("TRY NEXT TIME");
@@ -240,106 +202,6 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
-
-//    Button[] buttons_player = {Button_1, Button_2, Button_3, Button_4, Button_5, Button_6, Button_7, Button_8, Button_9, Button_10, Button_11, Button_12, Button_13, Button_14, Button_15, Button_16};
-//        for (int i = 0; i < buttons_player.length; i++) {
-//        Button button = buttons_player[i];
-//        int x = i / 4; // numer wiersza
-//        int y = i % 4; // numer kolumny
-//        button.setOnAction(param -> {
-//            if (!button.getStyleClass().contains("button-pressed")) {
-//                clickCounter1++;
-//                if (clickCounter1 % 2 == 1) {
-//
-//                    button.getStyleClass().add("button-pressed");
-//                    button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #37e8ff, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
-//
-//                    button.setText("X");
-//                    board[x][y] = 1; // przypisanie wartości pola planszy
-//                    board_player[x][y] = '1';
-//
-//                    discography.SoundPlayer1();
-//
-//
-//                    ai = new AI(board);
-//
-//                    if (ai.isGameOver()) {
-//                        discography.LoosingPlayer1();
-//
-//                        RESET();
-//
-//                        button.getStyleClass().remove("button-pressed");
-//                        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-//
-//                        if (mediaPlayer1 == null || mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-//                            System.out.print("____________________________\n");
-//                            System.out.println("MUSIC IS CURRENTLY NOT PLAYING");
-//                            System.out.print("____________________________\n");
-//                        } else {
-//                            mediaPlayer1.stop();
-//                            System.out.println("MUSIC STOP");
-//                            System.out.print("____________________________\n");
-//                        }
-//
-//                        FailureInfoPlayer1();
-//                    }
-//                    printBoard();
-//                    System.out.println(board[x][y] + " " + x + " " + y + " " + Arrays.deepToString(board));
-//                } else {
-//
-//                    int[] bestMove = ai.findBestMove(board);
-//
-//                    System.out.println(Arrays.toString(bestMove));
-//
-//
-//                    int row = bestMove[0];
-//                    int col = bestMove[1];
-//
-//
-//                    board[row][col] = 1; // przypisanie wartości pola planszy
-//                    board_player[row][col] = '1';
-//
-////                        board[x][y] = 1; // przypisanie wartości pola planszy
-////                        board_player[x][y] = '1';
-//
-//                    button.setText("X");
-//                    button.getStyleClass().add("button-pressed");
-//                    button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff1f1f, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
-//
-//
-//                    discography.SoundPlayer2();
-//
-//                    ai = new AI(board);
-//
-//                    if (ai.isGameOver()) {
-//                        discography.LoosingPlayer2();
-//
-//                        button.getStyleClass().remove("button-pressed");
-//                        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-//
-//                        FailureInfoPlayer2();
-//
-//                        if (mediaPlayer1 == null || mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-//                            System.out.print("____________________________\n");
-//                            System.out.println("MUSIC IS CURRENTLY NOT PLAYING");
-//                            System.out.print("____________________________\n");
-//                        } else {
-//                            mediaPlayer1.stop();
-//                            System.out.println("MUSIC STOP");
-//                            System.out.print("____________________________\n");
-//                        }
-//
-//                        RESET();
-//                    }
-//                    printBoard();
-//                    System.out.println(board[row][col] + " " + row + " " + col + " " + Arrays.toString(bestMove));
-//
-////                        System.out.println(board[x][y] + " " + x + " " + y + " " + Arrays.deepToString(board));
-//                }
-//            }
-//        });
-//    }
 
 
 }

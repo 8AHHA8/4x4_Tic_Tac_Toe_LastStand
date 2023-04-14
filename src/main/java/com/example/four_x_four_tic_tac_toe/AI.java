@@ -118,6 +118,10 @@ public class AI {
 
     public int evaluateBoard(int[][] board) {
         int score = 0;
+        int rowChecker = 0;
+        int colChecker = 0;
+        int diagLChecker = 0;
+        int diagRChecker = 0;
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -125,50 +129,69 @@ public class AI {
                     int localScore = 0;
                     boolean lineFound = false;
 
-                        if (board[i][j] == 1) { //sprawdzam czy w wierszu już jest znak, czyli czy warto ten wiersz rozważać
-                            lineFound = true;
-                            break;
-                        }
 
-                    if (!lineFound) { //bazując na wyniku if'a przyznaję wartość
+                    if (board[i][j] == 1) { //sprawdzam czy w wierszu już jest znak, czyli czy warto ten wiersz rozważać
+                        rowChecker++;
+                        lineFound = true;
+                        break;
+                    }
+
+
+                    if (!lineFound && rowChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
+                    } else {
+                        if(rowChecker == 3)
+                            localScore--;
                     }
 
                     lineFound = false;
 
 
-                        if (board[j][i] == 1) { //sprawdzam czy w kolumnie już jest znak, czyli czy warto tę kolumnę rozważać
-                            lineFound = true;
-                            break;
-                        }
+                    if (board[j][i] == 1) { //sprawdzam czy w kolumnie już jest znak, czyli czy warto tę kolumnę rozważać
+                        colChecker++;
+                        lineFound = true;
+                        break;
+                    }
 
 
-                    if (!lineFound) {//bazując na wyniku if'a przyznaję wartość
+                    if (!lineFound && colChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
+                    } else {
+                        if(rowChecker == 3)
+                            localScore--;
                     }
 
                     lineFound = false;
 
-                        if (board[i][i] == 1) { //sprawdzam czy na lewym skosie już jest znak, czyli czy warto ten skos rozważać
-                            lineFound = true;
-                            break;
-                        }
+                    if (board[i][i] == 1) { //sprawdzam czy na lewym skosie już jest znak, czyli czy warto ten skos rozważać
+                        diagLChecker++;
+                        lineFound = true;
+                        break;
+                    }
 
 
-                    if (!lineFound) {//bazując na wyniku if'a przyznaję wartość
+                    if (!lineFound && diagLChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
+                    } else {
+                        if(rowChecker == 3)
+                            localScore--;
                     }
 
                     lineFound = false;
 
 
-                        if (board[i][board.length - i - 1] == 1) { //sprawdzam czy na prawym skosie już jest znak, czyli czy warto ten skos rozważać
-                            lineFound = true;
-                            break;
-                        }
+                    if (board[i][board.length - i - 1] == 1) { //sprawdzam czy na prawym skosie już jest znak, czyli czy warto ten skos rozważać
+                        diagRChecker++;
+                        lineFound = true;
+                        break;
+                    }
 
-                    if (!lineFound) {//bazując na wyniku if'a przyznaję wartość
+
+                    if (!lineFound && diagRChecker < 3) { //bazując na wyniku if'a przyznaję wartość
                         localScore++;
+                    } else {
+                        if(rowChecker == 3)
+                            localScore--;
                     }
 
                     score += localScore;//przypisuję wartość zliczonych punktów
