@@ -37,7 +37,9 @@ public class Controller {
 
     Button[] buttons_player;
 
-    AI ai;
+    boolean playerMove = true;
+
+    AI ai = new AI(board, playerMove);
 
     @FXML
     private void initialize() {
@@ -71,6 +73,8 @@ public class Controller {
         });
 
 
+
+
         buttons_player = new Button[]{Button_1, Button_2, Button_3, Button_4, Button_5, Button_6, Button_7, Button_8, Button_9, Button_10, Button_11, Button_12, Button_13, Button_14, Button_15, Button_16};
         for (int i = 0; i < buttons_player.length; i++) {
             Button button = buttons_player[i];
@@ -78,8 +82,6 @@ public class Controller {
             int y = i % 4; // numer kolumny
             button.setOnAction(param -> {
                 if (!button.getStyleClass().contains("button-pressed")) {
-                    clickCounter1++;
-                    if (clickCounter1 % 2 == 1) {
                         button.getStyleClass().add("button-pressed");
                         button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #37e8ff, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
                         button.setText("X");
@@ -88,13 +90,11 @@ public class Controller {
 
                         discography.SoundPlayer1();
 
-                        ai = new AI(board);
+                        playerMove = false;
 
                         performComputerMove(board);
-                        clickCounter1++;
 
-
-                        ai = new AI(board);
+                        playerMove = true;
 
                         if (ai.isGameOver()) {
                             discography.LoosingPlayer();
@@ -116,10 +116,8 @@ public class Controller {
 
                             RESET();
                         }
-                        printBoard();
-                        System.out.println(board[x][y] + " " + x + " " + y);
                     }
-                }
+                printBoard();
             });
         }
 
@@ -169,8 +167,8 @@ public class Controller {
     }
 
     private void printBoard() {
-        for (int row = board.length - 1; row >= 0; row--) {
-            for (int col = 0; col < board[row].length; col++) {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board.length; col++) {
                 System.out.print("|" + board[row][col]);
             }
             System.out.println("|");
@@ -191,6 +189,8 @@ public class Controller {
 
         return alert;
     }
+
+
 
     private void RESET() {
         Pane pane = (Pane) reset.getParent();

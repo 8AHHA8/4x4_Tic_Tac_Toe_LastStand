@@ -27,22 +27,22 @@
                </stops>
             </LinearGradient>
          </stroke></Line>
-      <Button fx:id="Button_1" layoutX="5.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_2" layoutX="155.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_3" layoutX="305.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_4" layoutX="455.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_5" layoutX="5.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_6" layoutX="155.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_7" layoutX="305.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_8" layoutX="455.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_9" layoutX="5.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_10" layoutX="155.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_11" layoutX="305.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_12" layoutX="455.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_13" layoutX="5.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_14" layoutX="155.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_15" layoutX="305.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
-      <Button fx:id="Button_16" layoutX="455.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_13" layoutX="5.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_14" layoutX="155.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_15" layoutX="305.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_16" layoutX="455.0" layoutY="550.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_9" layoutX="5.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_10" layoutX="155.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_11" layoutX="305.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_12" layoutX="455.0" layoutY="400.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_5" layoutX="5.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_6" layoutX="155.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_7" layoutX="305.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_8" layoutX="455.0" layoutY="250.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_1" layoutX="5.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_2" layoutX="155.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_3" layoutX="305.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
+      <Button fx:id="Button_4" layoutX="455.0" layoutY="101.0" mnemonicParsing="false" onAction="#initialize" prefHeight="140.0" prefWidth="140.0" />
       <Label prefHeight="90.0" prefWidth="600.0" stylesheets="@Design.css" text="WITAM W GRZE" />
       <Button fx:id="reset" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#initialize" prefHeight="50.0" prefWidth="110.0" stylesheets="@Reset.css" text="RESET" />
       <Button fx:id="Music" layoutX="470.0" layoutY="20.0" mnemonicParsing="false" onAction="#initialize" prefHeight="50.0" prefWidth="110.0" stylesheets="@Reset.css" text="♪" />

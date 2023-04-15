@@ -12,13 +12,17 @@ public class AI {
 
 
     int[][] board;
+    boolean playerMove;
 
-    public AI(int[][] board) {
+    public AI(int[][] board, boolean playerMove) {
         this.board = board;
+        this.playerMove = playerMove;
     }
+
 
     public int CheckHorizontals() {
         int counter = 0;
+
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 1) {
@@ -31,6 +35,7 @@ public class AI {
                 counter = 0;
             }
         }
+
         return counter;
     }
 
@@ -48,6 +53,7 @@ public class AI {
                 counter = 0;
             }
         }
+
         return counter;
     }
 
@@ -58,7 +64,18 @@ public class AI {
                 counter++;
             }
         }
+
         return counter;
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     public int CheckDiagonalsRight() {
@@ -68,10 +85,12 @@ public class AI {
                 counter++;
             }
         }
+
         return counter;
     }
 
     public boolean isGameOver() {
+        // printBoard();
         boolean checker;
         if (CheckHorizontals() == 4 || CheckVerticals() == 4 || CheckDiagonalsLeft() == 4 || CheckDiagonalsRight() == 4) {
             checker = true;
@@ -83,19 +102,29 @@ public class AI {
 
     public int MinMax(int[][] board, int depth, int alpha, int beta, boolean MaximizingPlayer) {
 
-        if (isGameOver() || depth == 0) {
-            return evaluateBoard(board);//zwracam najlepszy możliwy wynik
+        if (isGameOver()) {
+            if (!playerMove) {
+                return -100 + (16 - depth);
+            } else {
+                return 100 - (16 - depth);
+            }
         }
 
         if (MaximizingPlayer) {
             int maxInteger = Integer.MIN_VALUE;
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
-                    int playerOneMove = MinMax(board, depth - 1, alpha, beta, false);
-                    maxInteger = max(maxInteger, playerOneMove);
-                    alpha = max(alpha, playerOneMove);
-                    if (beta <= alpha) {
-                        break;
+                    if (board[i][j] == 0) {
+                        board[i][j] = 1;
+                        playerMove = !playerMove;
+                        int playerOneMove = MinMax(board, depth - 1, alpha, beta, false);
+                        board[i][j] = 0;
+                        playerMove = !playerMove;
+                        maxInteger = max(maxInteger, playerOneMove);
+                        alpha = max(alpha, maxInteger);
+                        if (beta <= alpha) {
+                            break;
+                        }
                     }
                 }
             }
@@ -104,101 +133,22 @@ public class AI {
             int minInteger = Integer.MAX_VALUE;
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
-                    int playerTwoMove = MinMax(board, depth - 1, alpha, beta, true);
-                    minInteger = min(minInteger, playerTwoMove);
-                    beta = min(beta, playerTwoMove);
-                    if (beta <= alpha) {
-                        break;
+                    if (board[i][j] == 0) {
+                        board[i][j] = 1;
+                        playerMove = !playerMove;
+                        int playerTwoMove = MinMax(board, depth - 1, alpha, beta, true);
+                        board[i][j] = 0;
+                        playerMove = !playerMove;
+                        minInteger = min(minInteger, playerTwoMove);
+                        beta = min(beta, minInteger);
+                        if (beta <= alpha) {
+                            break;
+                        }
                     }
                 }
             }
             return minInteger;
         }
-    }
-
-    public int evaluateBoard(int[][] board) {
-        int score = 0;
-        int rowChecker = 0;
-        int colChecker = 0;
-        int diagLChecker = 0;
-        int diagRChecker = 0;
-
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] == 0) { //sprawdzam czy pole jest wolne
-                    int localScore = 0;
-                    boolean fieldTaken = false;
-
-
-                    if (board[i][j] == 1) { //sprawdzam czy w wierszu już jest znak, czyli czy warto ten wiersz rozważać
-                        rowChecker++;
-                        fieldTaken = true;
-                        break;
-                    }
-
-
-                    if (!fieldTaken && rowChecker < 3) { //bazując na wyniku if'a przyznaję wartość
-                        localScore++;
-                    } else {
-                        if(rowChecker == 3)
-                            localScore--;
-                    }
-
-                    fieldTaken = false;
-
-
-                    if (board[j][i] == 1) { //sprawdzam czy w kolumnie już jest znak, czyli czy warto tę kolumnę rozważać
-                        colChecker++;
-                        fieldTaken = true;
-                        break;
-                    }
-
-
-                    if (!fieldTaken && colChecker < 3) { //bazując na wyniku if'a przyznaję wartość
-                        localScore++;
-                    } else {
-                        if(rowChecker == 3)
-                            localScore--;
-                    }
-
-                    fieldTaken = false;
-
-                    if (board[i][i] == 1) { //sprawdzam czy na lewym skosie już jest znak, czyli czy warto ten skos rozważać
-                        diagLChecker++;
-                        fieldTaken = true;
-                        break;
-                    }
-
-
-                    if (!fieldTaken && diagLChecker < 3) { //bazując na wyniku if'a przyznaję wartość
-                        localScore++;
-                    } else {
-                        if(rowChecker == 3)
-                            localScore--;
-                    }
-
-                    fieldTaken = false;
-
-
-                    if (board[i][board.length - i - 1] == 1) { //sprawdzam czy na prawym skosie już jest znak, czyli czy warto ten skos rozważać
-                        diagRChecker++;
-                        fieldTaken = true;
-                        break;
-                    }
-
-
-                    if (!fieldTaken && diagRChecker < 3) { //bazując na wyniku if'a przyznaję wartość
-                        localScore++;
-                    } else {
-                        if(rowChecker == 3)
-                            localScore--;
-                    }
-
-                    score += localScore;//przypisuję wartość zliczonych punktów
-                }
-            }
-        }
-        return score;
     }
 
     public int[] findBestMove(int[][] board) {
@@ -208,15 +158,16 @@ public class AI {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 1;//symuluję ruch gracza
-                    int meantimeVariable = MinMax(board, 6, Integer.MIN_VALUE, Integer.MAX_VALUE, false);//przypisuję maksymalną wartość
+                    playerMove = !playerMove;
+                    int meantimeVariable = MinMax(board, 16, Integer.MIN_VALUE, Integer.MAX_VALUE, false);//przypisuję maksymalną wartość
                     board[i][j] = 0;//cofam symulację ruchu
+                    playerMove = !playerMove;
+                    System.out.println(bestScore);
                     if (meantimeVariable > bestScore) {
                         bestScore = meantimeVariable;
                         bestMove[0] = i;//przypisuję współrzędne najlepszego ruchu
                         bestMove[1] = j;//przypisuję współrzędne najlepszego ruchu
                     }
-                } else {
-                    System.out.println("Field [" + i + "," + j + "] is taken.");
                 }
             }
         }
@@ -225,3 +176,5 @@ public class AI {
     }
 }
 
+
+//TODO: POPOPRAWIAĆ WARTOŚCI PLAYERMOVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
