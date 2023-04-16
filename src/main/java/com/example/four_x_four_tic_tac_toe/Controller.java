@@ -3,14 +3,11 @@ package com.example.four_x_four_tic_tac_toe;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
-import java.security.PublicKey;
 import java.util.*;
 
 
@@ -21,136 +18,95 @@ public class Controller {
     @FXML
     private Button reset;
     @FXML
-    private Button Music;
+    private Button music;
+    @FXML
+    private Button startingPlayer;
 
-    public static MediaPlayer mediaPlayer1;
-
-    public static Discography discography = new Discography(mediaPlayer1);
-
-    Media musicTheme;
-
-    int clickCounter1 = 0;
+    public static MediaPlayer mediaPlayer;
+    public static Discography discography = new Discography(mediaPlayer);
 
     public int[][] board = new int[4][4];
 
     public char[][] board_player = new char[4][4];
 
-    Button[] buttons_player;
+    Button[][] buttonsPlayer;
 
-    boolean playerMove = true;
+    boolean playerMove = true, isGameStarted = false;
 
     AI ai = new AI(board, playerMove);
+
 
     @FXML
     private void initialize() {
 
 
         reset.setOnAction(param -> {
-            Button button = new Button();
-            button.getStyleClass().add("button-pressed");
-            String path = getClass().getResource("reset.mp3").toString();
-            Media play = new Media(path);
-            mediaPlayer1 = new MediaPlayer(play);
-            mediaPlayer1.play();
-
-            Pane pane = (Pane) reset.getParent();
-            pane.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Board.fxml"));
-            try {
-                pane.getChildren().add(loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (!button.getStyleClass().contains("button-pressed")) {
-                button.getStyleClass().remove("button-pressed");
-                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-                mediaPlayer1.stop();
-            }
-
-            System.out.println("RESET");
-            System.out.print("____________________________\n");
+            discography.resetSound();
+            reset();
         });
 
 
+        startingPlayer.setOnAction(event -> {
+            choosePlayer();
+        });
 
 
-        buttons_player = new Button[]{Button_1, Button_2, Button_3, Button_4, Button_5, Button_6, Button_7, Button_8, Button_9, Button_10, Button_11, Button_12, Button_13, Button_14, Button_15, Button_16};
-        for (int i = 0; i < buttons_player.length; i++) {
-            Button button = buttons_player[i];
-            int x = i / 4; // numer wiersza
-            int y = i % 4; // numer kolumny
-            button.setOnAction(param -> {
-                if (!button.getStyleClass().contains("button-pressed")) {
-                        button.getStyleClass().add("button-pressed");
-                        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #37e8ff, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
-                        button.setText("X");
-                        board[x][y] = 1; // przypisanie wartości pola planszy
-                        board_player[x][y] = '1';
+        buttonsPlayer = new Button[][]{{Button_1, Button_2, Button_3, Button_4},
+                {Button_5, Button_6, Button_7, Button_8},
+                {Button_9, Button_10, Button_11, Button_12},
+                {Button_13, Button_14, Button_15, Button_16}};
 
-                        discography.SoundPlayer1();
-
-                        playerMove = false;
-
-                        performComputerMove(board);
-
-                        playerMove = true;
-
-                        if (ai.isGameOver()) {
-                            discography.LoosingPlayer();
-
-                            button.getStyleClass().remove("button-pressed");
-                            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                            FailureInfoPlayer();
-
-                            if (mediaPlayer1 == null || mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                                System.out.print("____________________________\n");
-                                System.out.println("MUSIC IS CURRENTLY NOT PLAYING");
-                                System.out.print("____________________________\n");
-                            } else {
-                                mediaPlayer1.stop();
-                                System.out.println("MUSIC STOP");
-                                System.out.print("____________________________\n");
-                            }
-
-                            RESET();
-                        }
-                    }
-                printBoard();
-            });
+        for (int i = 0; i < buttonsPlayer.length; i++) {
+            for (int j = 0; j < buttonsPlayer[i].length; j++) {
+                Button button = buttonsPlayer[i][j];
+                int x = i; // numer wiersza
+                int y = j; // numer kolumny
+                button.setOnAction(param -> {
+                    playerMove(button, x, y);
+                });
+            }
         }
 
 
-        String path = getClass().getResource("ambient.mp3").toString();
-        musicTheme = new Media(path);
-
-        Music.setOnAction(event -> {
-            Button button = (Button) event.getSource();
-            if (mediaPlayer1 == null || !mediaPlayer1.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                button.getStyleClass().add("button-pressed");
-                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #0018ff, #000000);");
-
-                mediaPlayer1 = new MediaPlayer((musicTheme));
-                mediaPlayer1.setCycleCount(MediaPlayer.INDEFINITE);
-                mediaPlayer1.play();
-
-                System.out.println("MUSIC START");
-                System.out.print("____________________________\n");
-
-            } else {
-                button.getStyleClass().remove("button-pressed");
-                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                mediaPlayer1.stop();
-
-                System.out.println("MUSIC STOP");
-                System.out.print("____________________________\n");
-            }
+        music.setOnAction(e -> {
+            discography.music(music);
         });
     }
 
-    public int[][] performComputerMove(int[][] board) {
+
+
+
+    private void playerMove(Button button, int x, int y) {
+        if (isGameStarted && !button.getStyleClass().contains("button-pressed")) { //sprawdzenie czy gra została już rozpoczęta(wybór pierwszego gracza) oraz czy dane pole na planszy nie zostało już zajęte
+            button.getStyleClass().add("button-pressed");
+            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #37e8ff, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
+            button.setText("X");
+            board[x][y] = 1; // przypisanie znaku '1' do pola planszy
+            board_player[x][y] = '1';
+
+            discography.soundPlayer();
+
+            playerMove = false;
+
+            computerMove(board);
+
+            playerMove = true;
+
+            if (ai.isGameOver()) {
+                discography.loosingPlayer();
+
+                button.getStyleClass().remove("button-pressed");
+                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+
+                FailureInfoPlayer();
+
+                reset();
+            }
+        }
+        printBoard();
+    }
+
+    public int[][] computerMove(int[][] board) {
         int[] bestMove = ai.findBestMove(board);
         int row = bestMove[0];
         int col = bestMove[1];
@@ -158,7 +114,7 @@ public class Controller {
         board_player[row][col] = '1';
 
         // Zaznacz pole planszy, na którym wykonano ruch drugiego gracza
-        Button button = buttons_player[row * 4 + col];
+        Button button = buttonsPlayer[row][col];
         button.setText("X");
         button.getStyleClass().add("button-pressed");
         button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff1f1f, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
@@ -166,7 +122,7 @@ public class Controller {
         return board;
     }
 
-    private void printBoard() {
+    public void printBoard() {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board.length; col++) {
                 System.out.print("|" + board[row][col]);
@@ -179,9 +135,9 @@ public class Controller {
         System.out.println();
     }
 
-    private Alert FailureInfoPlayer() {
+    public Alert FailureInfoPlayer() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("YOU HAVE LOST!");
+        alert.setTitle("GAME OVER!");
         alert.setHeaderText(null);
         alert.setGraphic(null);
         alert.setContentText("TRY NEXT TIME");
@@ -191,8 +147,8 @@ public class Controller {
     }
 
 
-
-    private void RESET() {
+    public void reset() {
+        Button button = new Button();
         Pane pane = (Pane) reset.getParent();
         pane.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Board.fxml"));
@@ -200,6 +156,36 @@ public class Controller {
             pane.getChildren().add(loader.load());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (!button.getStyleClass().contains("button-pressed")) {
+            button.getStyleClass().remove("button-pressed");
+            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+        }
+
+        System.out.println("RESET");
+        System.out.print("____________________________\n");
+    }
+
+
+    public void choosePlayer(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Starting player");
+        alert.setHeaderText("Choose starting player:");
+        ButtonType playerButton = new ButtonType("Player");
+        ButtonType computerButton = new ButtonType("Computer");
+        alert.getButtonTypes().setAll(playerButton, computerButton);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == playerButton) {
+                playerMove = true;
+            } else if (result.get() == computerButton) {
+                playerMove = false;
+                computerMove(board);
+                printBoard();
+                playerMove = true;
+            }
+            isGameStarted = true;
         }
     }
 

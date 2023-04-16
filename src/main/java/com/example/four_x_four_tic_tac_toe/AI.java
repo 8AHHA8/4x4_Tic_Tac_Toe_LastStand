@@ -162,7 +162,7 @@ public class AI {
                     int meantimeVariable = MinMax(board, 16, Integer.MIN_VALUE, Integer.MAX_VALUE, false);//przypisuję maksymalną wartość
                     board[i][j] = 0;//cofam symulację ruchu
                     playerMove = !playerMove;
-                    System.out.println(bestScore);
+//                    System.out.println(bestScore);
                     if (meantimeVariable > bestScore) {
                         bestScore = meantimeVariable;
                         bestMove[0] = i;//przypisuję współrzędne najlepszego ruchu
@@ -178,3 +178,38 @@ public class AI {
 
 
 //TODO: POPOPRAWIAĆ WARTOŚCI PLAYERMOVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
