@@ -102,46 +102,46 @@ public class AI {
 
     public int MinMax(int[][] board, int depth, int alpha, int beta, boolean MaximizingPlayer) {
 
-        if (isGameOver()) {
-            if (!playerMove) {
+        if(isGameOver()) {
+            if(!playerMove) {
                 return -100 + (16 - depth);
             } else {
                 return 100 - (16 - depth);
             }
         }
 
-        if (MaximizingPlayer) {
+        if(MaximizingPlayer){
             int maxInteger = Integer.MIN_VALUE;
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    if (board[i][j] == 0) {
+            for(int i = 0; i < board.length; i++){
+                for(int j = 0; j < board[i].length; j++){
+                    if(board[i][j] == 0) {
                         board[i][j] = 1;
-                        playerMove = !playerMove;
+                        playerMove = false;
                         int playerOneMove = MinMax(board, depth - 1, alpha, beta, false);
                         board[i][j] = 0;
-                        playerMove = !playerMove;
+                        playerMove = true;
                         maxInteger = max(maxInteger, playerOneMove);
                         alpha = max(alpha, maxInteger);
-                        if (beta <= alpha) {
+                        if(beta <= alpha) {
                             break;
                         }
                     }
                 }
             }
             return maxInteger;
-        } else {
+        }else{
             int minInteger = Integer.MAX_VALUE;
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    if (board[i][j] == 0) {
+            for(int i = 0; i < board.length; i++){
+                for(int j = 0; j < board[i].length; j++){
+                    if(board[i][j] == 0){
                         board[i][j] = 1;
-                        playerMove = !playerMove;
+                        playerMove = true;
                         int playerTwoMove = MinMax(board, depth - 1, alpha, beta, true);
                         board[i][j] = 0;
-                        playerMove = !playerMove;
+                        playerMove = false;
                         minInteger = min(minInteger, playerTwoMove);
                         beta = min(beta, minInteger);
-                        if (beta <= alpha) {
+                        if(beta <= alpha){
                             break;
                         }
                     }

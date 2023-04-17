@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.util.*;
 
+import static com.example.four_x_four_tic_tac_toe.Movement.symulateMoves;
+
 
 public class Controller {
 
@@ -25,15 +27,18 @@ public class Controller {
     public static MediaPlayer mediaPlayer;
     public static Discography discography = new Discography(mediaPlayer);
 
-    public int[][] board = new int[4][4];
+    public static int[][] board = new int[4][4];
 
-    public char[][] board_player = new char[4][4];
+    public static char[][] boardPlayer = new char[4][4];
 
-    Button[][] buttonsPlayer;
+    public static Button[][] buttonsPlayer;
 
-    boolean playerMove = true, isGameStarted = false;
+    public static boolean playerMove = true;
+    public static boolean isGameStarted = false;
 
-    AI ai = new AI(board, playerMove);
+    public static final AI ai = new AI(board, playerMove);
+
+    Movement movement = new Movement();
 
 
     @FXML
@@ -62,7 +67,18 @@ public class Controller {
                 int x = i; // numer wiersza
                 int y = j; // numer kolumny
                 button.setOnAction(param -> {
-                    playerMove(button, x, y);
+                    symulateMoves(button, x, y);
+                    if (ai.isGameOver()) {
+                        discography.loosingPlayer();
+
+                        button.getStyleClass().remove("button-pressed");
+                        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+
+                        FailureInfoPlayer();
+
+                        reset();
+                    }
+                    printBoard();
                 });
             }
         }
@@ -71,55 +87,6 @@ public class Controller {
         music.setOnAction(e -> {
             discography.music(music);
         });
-    }
-
-
-
-
-    private void playerMove(Button button, int x, int y) {
-        if (isGameStarted && !button.getStyleClass().contains("button-pressed")) { //sprawdzenie czy gra została już rozpoczęta(wybór pierwszego gracza) oraz czy dane pole na planszy nie zostało już zajęte
-            button.getStyleClass().add("button-pressed");
-            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #37e8ff, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
-            button.setText("X");
-            board[x][y] = 1; // przypisanie znaku '1' do pola planszy
-            board_player[x][y] = '1';
-
-            discography.soundPlayer();
-
-            playerMove = false;
-
-            computerMove(board);
-
-            playerMove = true;
-
-            if (ai.isGameOver()) {
-                discography.loosingPlayer();
-
-                button.getStyleClass().remove("button-pressed");
-                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                FailureInfoPlayer();
-
-                reset();
-            }
-        }
-        printBoard();
-    }
-
-    public int[][] computerMove(int[][] board) {
-        int[] bestMove = ai.findBestMove(board);
-        int row = bestMove[0];
-        int col = bestMove[1];
-        board[row][col] = 1;
-        board_player[row][col] = '1';
-
-        // Zaznacz pole planszy, na którym wykonano ruch drugiego gracza
-        Button button = buttonsPlayer[row][col];
-        button.setText("X");
-        button.getStyleClass().add("button-pressed");
-        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ff1f1f, #000000); -fx-font-size: 60px; -fx-text-fill: white;");
-
-        return board;
     }
 
     public void printBoard() {
@@ -148,6 +115,11 @@ public class Controller {
 
 
     public void reset() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                board[i][j] = 0;
+            }
+        }
         Button button = new Button();
         Pane pane = (Pane) reset.getParent();
         pane.getChildren().clear();
@@ -168,7 +140,7 @@ public class Controller {
     }
 
 
-    public void choosePlayer(){
+    public void choosePlayer() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Starting player");
         alert.setHeaderText("Choose starting player:");
@@ -181,7 +153,7 @@ public class Controller {
                 playerMove = true;
             } else if (result.get() == computerButton) {
                 playerMove = false;
-                computerMove(board);
+                movement.computerMove(board);
                 printBoard();
                 playerMove = true;
             }

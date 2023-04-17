@@ -16,8 +16,6 @@ public class Discography {
         this.mediaPlayer = mediaPlayer1;
     }
 
-
-
     public MediaPlayer soundPlayer(){
         String path = getClass().getResource("plum.mp3").toString();
         Media play = new Media(path);
@@ -35,7 +33,6 @@ public class Discography {
 
         return mediaPlayer;
     }
-
 
     public MediaPlayer music(Button button) {
         String path = getClass().getResource("ambient.mp3").toString();
