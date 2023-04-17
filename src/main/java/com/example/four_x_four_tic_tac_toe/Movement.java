@@ -7,14 +7,15 @@ import static com.example.four_x_four_tic_tac_toe.Controller.*;
 public class Movement {
 
     public static void symulateMoves(Button button,  int x, int y) {
-        if(isGameStarted) {
+        if(isGameStarted && !button.getStyleClass().contains("button-pressed")) {
             playerMove(button, x, y);
+            discography.soundPlayer();
             computerMove(board);
         }
     }
 
     public static void playerMove(Button button, int x, int y) {
-        if (!button.getStyleClass().contains("button-pressed")) { //sprawdzenie czy gra została już rozpoczęta(wybór pierwszego gracza) oraz czy dane pole na planszy nie zostało już zajęte
+        if (!button.getStyleClass().contains("button-pressed")) { //sprawdzenie czy  dane pole na planszy nie zostało już zajęte
             board[x][y] = 1; // przypisanie znaku '1' do pola planszy
             boardPlayer[x][y] = '1';
             styleButtonAfterPlayerMove(button);

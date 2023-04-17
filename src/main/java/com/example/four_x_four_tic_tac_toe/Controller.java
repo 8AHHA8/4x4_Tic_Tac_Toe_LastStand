@@ -67,18 +67,22 @@ public class Controller {
                 int x = i; // numer wiersza
                 int y = j; // numer kolumny
                 button.setOnAction(param -> {
-                    symulateMoves(button, x, y);
-                    if (ai.isGameOver()) {
-                        discography.loosingPlayer();
+                    if (playerMove) {
+                        symulateMoves(button, x, y);
+                        if (ai.isGameOver()) {
+                            discography.loosingPlayer();
 
-                        button.getStyleClass().remove("button-pressed");
-                        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+                            button.getStyleClass().remove("button-pressed");
+                            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
 
-                        FailureInfoPlayer();
+                            FailureInfoPlayer();
 
-                        reset();
+                            reset();
+
+                            playerMove = false;
+                        }
+                        printBoard();
                     }
-                    printBoard();
                 });
             }
         }
