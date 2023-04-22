@@ -9,7 +9,7 @@ public class Movement {
     public static void symulateMoves(Button button,  int x, int y) {
         if(isGameStarted && !button.getStyleClass().contains("button-pressed")) {
             playerMove(button, x, y);
-            discography.soundPlayer();
+            discography.soundPlayer1();
             computerMove(board);
         }
     }

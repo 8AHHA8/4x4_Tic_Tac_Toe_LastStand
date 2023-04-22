@@ -52,7 +52,7 @@ public class Controller {
 
 
         startingPlayer.setOnAction(event -> {
-            chooseGamemode();
+            chooseGameMode();
         });
 
 
@@ -72,53 +72,34 @@ public class Controller {
                         symulateMoves(button, x, y);
 
                         if (ai.isGameOver()) {
-                            discography.loosingPlayer();
-
-                            button.getStyleClass().remove("button-pressed");
-                            button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                            FailureInfoPlayer();
-
-                            reset();
-
-                            playerMove = false;
+                            end(button);
                         }
                         printBoard();
                     } else {
-                        if (counter % 2 == 0) {
-                            Movement.playerMove(button, x, y);
-                            Movement.styleButtonAfterPlayerMove(button);
-                            counter++;
-                            if (ai.isGameOver()) {
-                                discography.loosingPlayer();
+                        if (counter % 2 == 0 && gameType) {
+                            if (!button.getStyleClass().contains("button-pressed")) {
 
-                                button.getStyleClass().remove("button-pressed");
-                                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #ca01e6);");
-
-                                FailureInfoPlayer();
-
-                                reset();
-
-                                playerMove = false;
+                                Movement.playerMove(button, x, y);
+                                Movement.styleButtonAfterPlayerMove(button);
+                                discography.soundPlayer1();
+                                counter++;
+                                if (ai.isGameOver()) {
+                                    end(button);
+                                }
+                                printBoard();
                             }
-                            printBoard();
                         } else {
-                            Movement.playerMove(button, x, y);
-                            Movement.styleButtonAfterComputerMove(button);
-                            counter++;
-                            if (ai.isGameOver()) {
-                                discography.loosingPlayer();
+                            if (!button.getStyleClass().contains("button-pressed")) {
 
-                                button.getStyleClass().remove("button-pressed");
-                                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
-
-                                FailureInfoPlayer();
-
-                                reset();
-
-                                playerMove = false;
+                                Movement.playerMove(button, x, y);
+                                Movement.styleButtonAfterComputerMove(button);
+                                discography.soundPlayer2();
+                                counter++;
+                                if (ai.isGameOver()) {
+                                    end(button);
+                                }
+                                printBoard();
                             }
-                            printBoard();
                         }
                     }
                 });
@@ -181,8 +162,23 @@ public class Controller {
         System.out.print("____________________________\n");
     }
 
+    public void end(Button button) {
+        discography.loosingPlayer();
 
-    public void chooseGamemode() {
+        button.getStyleClass().remove("button-pressed");
+        button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+
+        FailureInfoPlayer();
+
+        reset();
+        counter = 0;
+        gameType = false;
+
+        playerMove = false;
+    }
+
+
+    public void chooseGameMode() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Choose Gamemode");
         alert.setHeaderText("Choose starting player:");
@@ -223,7 +219,7 @@ public class Controller {
                     playerMove = true;
                 }
                 isGameStarted = true;
-            }else{
+            } else {
                 if (result.get() == playerStartButton) {
                     playerMove = true;
                 } else if (result.get() == computerStartButton) {

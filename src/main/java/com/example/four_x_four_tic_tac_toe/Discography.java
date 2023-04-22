@@ -1,6 +1,5 @@
 package com.example.four_x_four_tic_tac_toe;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -16,8 +15,17 @@ public class Discography {
         this.mediaPlayer = mediaPlayer1;
     }
 
-    public MediaPlayer soundPlayer(){
+    public MediaPlayer soundPlayer1(){
         String path = getClass().getResource("plum.mp3").toString();
+        Media play = new Media(path);
+        mediaPlayer = new MediaPlayer(play);
+        mediaPlayer.play();
+
+        return mediaPlayer;
+    }
+
+    public MediaPlayer soundPlayer2(){
+        String path = getClass().getResource("beep.mp3").toString();
         Media play = new Media(path);
         mediaPlayer = new MediaPlayer(play);
         mediaPlayer.play();
