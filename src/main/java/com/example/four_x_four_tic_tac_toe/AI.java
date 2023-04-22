@@ -100,9 +100,9 @@ public class AI {
         return checker;
     }
 
-    public int MinMax(int[][] board, int depth, int alpha, int beta, boolean MaximizingPlayer) {
+    public int MinMax(int[][] board, int depth, int alpha, int beta, boolean maximizingPlayer) {
 
-        if(isGameOver()) {
+        if(isGameOver() || depth == 0) {
             if(!playerMove) {
                 return -100 + (16 - depth);
             } else {
@@ -110,7 +110,7 @@ public class AI {
             }
         }
 
-        if(MaximizingPlayer){
+        if(maximizingPlayer){
             int maxInteger = Integer.MIN_VALUE;
             for(int i = 0; i < board.length; i++){
                 for(int j = 0; j < board[i].length; j++){
@@ -158,10 +158,10 @@ public class AI {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) {
                     board[i][j] = 1;//symuluję ruch gracza
-                    playerMove = !playerMove;
+                    playerMove = false;
                     int meantimeVariable = MinMax(board, 16, Integer.MIN_VALUE, Integer.MAX_VALUE, false);//przypisuję maksymalną wartość
                     board[i][j] = 0;//cofam symulację ruchu
-                    playerMove = !playerMove;
+                    playerMove = true;
 //                    System.out.println(bestScore);
                     if (meantimeVariable > bestScore) {
                         bestScore = meantimeVariable;
