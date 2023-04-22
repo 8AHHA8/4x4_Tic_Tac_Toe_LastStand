@@ -35,10 +35,10 @@ public class Controller {
 
     public static boolean playerMove = true;
     public static boolean isGameStarted = false;
-
+    public static boolean gameType = false;
     public static final AI ai = new AI(board, playerMove);
-
     Movement movement = new Movement();
+    int counter;
 
 
     @FXML
@@ -52,7 +52,7 @@ public class Controller {
 
 
         startingPlayer.setOnAction(event -> {
-            choosePlayer();
+            chooseGamemode();
         });
 
 
@@ -66,9 +66,11 @@ public class Controller {
                 Button button = buttonsPlayer[i][j];
                 int x = i; // numer wiersza
                 int y = j; // numer kolumny
+
                 button.setOnAction(param -> {
-                    if (playerMove) {
+                    if (playerMove && !gameType) {
                         symulateMoves(button, x, y);
+
                         if (ai.isGameOver()) {
                             discography.loosingPlayer();
 
@@ -82,6 +84,42 @@ public class Controller {
                             playerMove = false;
                         }
                         printBoard();
+                    } else {
+                        if (counter % 2 == 0) {
+                            Movement.playerMove(button, x, y);
+                            Movement.styleButtonAfterPlayerMove(button);
+                            counter++;
+                            if (ai.isGameOver()) {
+                                discography.loosingPlayer();
+
+                                button.getStyleClass().remove("button-pressed");
+                                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #ca01e6);");
+
+                                FailureInfoPlayer();
+
+                                reset();
+
+                                playerMove = false;
+                            }
+                            printBoard();
+                        } else {
+                            Movement.playerMove(button, x, y);
+                            Movement.styleButtonAfterComputerMove(button);
+                            counter++;
+                            if (ai.isGameOver()) {
+                                discography.loosingPlayer();
+
+                                button.getStyleClass().remove("button-pressed");
+                                button.setStyle("-fx-background-color: radial-gradient(center 50% 50%, radius 95%, #ca01e6, #000000);");
+
+                                FailureInfoPlayer();
+
+                                reset();
+
+                                playerMove = false;
+                            }
+                            printBoard();
+                        }
                     }
                 });
             }
@@ -144,24 +182,56 @@ public class Controller {
     }
 
 
+    public void chooseGamemode() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Choose Gamemode");
+        alert.setHeaderText("Choose starting player:");
+        ButtonType playerVsPlayerButton = new ButtonType("Player Vs Player");
+        ButtonType playerVsComputerButton = new ButtonType("Player Vs Computer");
+        alert.getButtonTypes().setAll(playerVsPlayerButton, playerVsComputerButton);
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent()) {
+            if (result.get() == playerVsPlayerButton) {
+                gameType = true;
+                choosePlayer();
+            } else if (result.get() == playerVsComputerButton) {
+                choosePlayer();
+            }
+
+            isGameStarted = true;
+        }
+    }
+
     public void choosePlayer() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Starting player");
         alert.setHeaderText("Choose starting player:");
-        ButtonType playerButton = new ButtonType("Player");
-        ButtonType computerButton = new ButtonType("Computer");
-        alert.getButtonTypes().setAll(playerButton, computerButton);
+        ButtonType playerStartButton = new ButtonType("Player 1");
+        ButtonType computerStartButton = new ButtonType("Player 2");
+        alert.getButtonTypes().setAll(playerStartButton, computerStartButton);
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.isPresent()) {
-            if (result.get() == playerButton) {
-                playerMove = true;
-            } else if (result.get() == computerButton) {
-                playerMove = false;
-                movement.computerMove(board);
-                printBoard();
-                playerMove = true;
+            if (!gameType) {
+                if (result.get() == playerStartButton) {
+                    playerMove = true;
+                } else if (result.get() == computerStartButton) {
+                    playerMove = false;
+                    movement.computerMove(board);
+                    printBoard();
+                    playerMove = true;
+                }
+                isGameStarted = true;
+            }else{
+                if (result.get() == playerStartButton) {
+                    playerMove = true;
+                } else if (result.get() == computerStartButton) {
+                    playerMove = false;
+                    counter++;
+                }
+                isGameStarted = true;
             }
-            isGameStarted = true;
         }
     }
 
